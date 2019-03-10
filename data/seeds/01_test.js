@@ -7,6 +7,10 @@ exports.seed = function(knex, Promise) {
           title: 'Test for prod database',
           content:
             'Here is a haiku:\n Nightfall,\n Too dark to read the page\n Too cold.\n - Jack Kerouac'
+        },
+        {
+          title: 'For good measure',
+          content: 'Daylight savings'
         }
       ]);
     });
