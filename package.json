@@ -1,12 +1,12 @@
 {
   "name": "backend-coordinator-storytelling",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "index.js",
   "author": "Bountiful Development",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js"
+    "start": "node index.js",
+    "server": "nodemon index.js"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
