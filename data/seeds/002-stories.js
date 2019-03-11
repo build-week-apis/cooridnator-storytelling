@@ -5,9 +5,11 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('stories').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
+        {
+          title: "A Story",
+          description: "What happened in the story and all the details.",
+          country: "Peru"
+        }
       ]);
     });
 };
