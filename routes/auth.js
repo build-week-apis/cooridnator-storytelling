@@ -20,7 +20,7 @@ router.post('/register', (req, res) => {
 
     if(!user.username){
         res.status(400).json({ message: 'Username not provided' })
-    } else if(!user.county){
+    } else if(!user.country){
         res.status(400).json({ message: 'Users country not provided'})
     } else if(!user.title){
         res.status(400).json({ message: 'No title provided' })
