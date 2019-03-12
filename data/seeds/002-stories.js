@@ -6,9 +6,9 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('stories').insert([
         {
-          title: "A Story",
-          description: "What happened in the story and all the details.",
-          country: "Peru"
+          story_title: "A Story",
+          story_description: "What happened in the story and all the details.",
+          story_country: "Peru"
         }
       ]);
     });

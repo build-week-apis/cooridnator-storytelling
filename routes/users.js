@@ -1,47 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../data/dbConfig');
+const bcrypt = require('bcrypt');
+
+const Users = require('../models/user');
+
+const mdl = require('../extra/middleware');
 
 router.get('/', async (req, res) => {
     try {
-        const users = await db('users'); 
-        res.status(200).json(users);
+        const users = await Users.find();
+    
+        res.json(users);
       } catch (error) {
-        res.status(500).json(error);
+        res.send(error);
   }
 })
 
 router.get('/:id', async (req, res) => {
     try {
-      const student = await db('users')
+      const user = await db('users')
         .where({ id: req.params.id })
         .first();
-      res.status(200).json(student);
+      res.status(200).json(user);
     } catch (error) {
       res.status(500).json(error);
-    }
-});
-
-const errors = {
-    '19': 'Another record with that value exists',
-  };
-  
-  router.post('/', async (req, res) => {
-    if(!req.body.username) {
-      res.status(400).json({ errormsg: 'Please enter a username' });
-      return;
-    }
-    try {
-      const [id] = await db('users').insert(req.body);
-  
-      const student = await db('users')
-        .where({ id })
-        .first();
-  
-      res.status(201).json(student);
-    } catch (error) {
-      const message = errors[error.errno] || 'We ran into an error';
-      res.status(500).json({ message, error });
     }
 });
 
@@ -56,11 +39,11 @@ router.put('/:id', async (req, res) => {
         .update(req.body);
   
       if (count > 0) {
-        const student = await db('users')
+        const user = await db('users')
           .where({ id: req.params.id })
           .first();
   
-        res.status(200).json(student);
+        res.status(200).json(user);
       } else {
         res.status(404).json({ message: 'Records not found' });
       }
