@@ -7,7 +7,7 @@ const Users = require('../models/user');
 
 const mdl = require('../extra/middleware');
 
-router.get('/', async (req, res) => {
+router.get('/', mdl.restricted, async (req, res) => {
     try {
         const users = await Users.find();
     
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', mdl.restricted, async (req, res) => {
     try {
       const user = await db('users')
         .where({ id: req.params.id })
@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', mdl.restricted, async (req, res) => {
     if(!req.body.username) {
       res.status(400).json({ errormsg: 'Please enter a username' });
       return;
@@ -51,7 +51,7 @@ router.put('/:id', async (req, res) => {
   });
   
   
-  router.delete('/:id', async (req, res) => {
+  router.delete('/:id', mdl.restricted, async (req, res) => {
     try {
       const count = await db('users')
         .where({ id: req.params.id })

@@ -8,7 +8,9 @@ exports.up = function(knex, Promise) {
            .notNullable()
         tbl.string("story_country")
            .notNullable()
-        tbl.foreign("story_country").references("country").inTable('users')
+        tbl.string("story_user")
+           .notNullable()
+        tbl.foreign("story_user").references("id").inTable('users')
         tbl.timestamp('create_date').defaultTo(knex.fn.now());
     })
 };
