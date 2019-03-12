@@ -10,9 +10,21 @@ const mdl = require('../extra/middleware');
 
 router.post('/register', (req, res) => {
     let user = req.body;
+
+    if(!user.password){
+        res.status(400).json({ message: 'No password provided' })
+    }
+
     const hash = bcrypt.hashSync(user.password, 12)
     user.password = hash;
-  
+
+    if(!user.username){
+        res.status(400).json({ message: 'Username not provided' })
+    } else if(!user.county){
+        res.status(400).json({ message: 'Users country not provided'})
+    } else if(!user.title){
+        res.status(400).json({ message: 'No title provided' })
+    } else {
     Users.add(user)
       .then(saved => {
         res.status(201).json(saved);
@@ -20,6 +32,7 @@ router.post('/register', (req, res) => {
       .catch(error => {
         res.status(500).json(error);
       });
+    }
   });
   
 router.post('/login', (req, res) => {
