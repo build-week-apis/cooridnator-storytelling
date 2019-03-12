@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 function generateToken(user) {
     const secret = "Coordinate";
     const payload = {
-      subject: user.id, // sub in payload is what the token is about
+      subject: user.id, 
       username: user.username,
       role: ['coordinator']
     };
@@ -20,18 +20,16 @@ function restricted(req, res, next) {
   const secret = "Coordinate";
 
   if (token) {
-    // is it valid?
     jwt.verify(token, secret, (err, decodedToken) => {
       if (err) {
-        // record the event
-        res.status(401).json({ you: "can't touch this!" });
+        res.status(401).json({ msg: "Authentication Failed" });
       } else {
         req.decodedJwt = decodedToken;
         next();
       }
     });
   } else {
-    res.status(401).json({ you: 'shall not pass!' });
+    res.status(401).json({ msg: 'No Authentication' });
   }
 }
 

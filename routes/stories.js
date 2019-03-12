@@ -27,7 +27,7 @@ router.post('/', mdl.restricted, (req, res) => {
     });
 });
 
-router.get('/:id', mdl.restricted, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const story = await db('stories')
       .where({ id: req.params.id })
