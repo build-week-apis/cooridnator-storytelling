@@ -1,9 +1,11 @@
+const jwt = require('jsonwebtoken');
+
 function generateToken(user) {
     const secret = "Coordinate";
     const payload = {
       subject: user.id, // sub in payload is what the token is about
       username: user.username,
-      role: 'coordinator'
+      role: ['coordinator']
     };
   
     const options = {

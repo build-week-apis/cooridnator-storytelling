@@ -24,24 +24,28 @@ router.post('/register', (req, res) => {
   
 router.post('/login', (req, res) => {
     let { username, password } = req.body;
+    let secret = 'Coordinate';
   
     Users.findBy({ username })
       .first()
       .then(user => {
         if (user && bcrypt.compareSync(password, user.password)) {
           const token = mdl.generateToken(user); // new
+          if(token){
           res.status(200).json({
             message: `Welcome ${user.username}!, have a token...`,
             token,
-            secret,
-            role: token.role,
+            secret
           });
+        } else {
+            res.status(500).json({ msg: 'Could not generate token'});
+        }
         } else {
           res.status(401).json({ message: 'Invalid Credentials' });
         }
       })
       .catch(error => {
-        res.status(500).json(error);
+        res.status(500).json(error, {message: "OOP"});
       });
 });
 
