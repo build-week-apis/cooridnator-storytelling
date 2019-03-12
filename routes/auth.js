@@ -10,9 +10,21 @@ const mdl = require('../extra/middleware');
 
 router.post('/register', (req, res) => {
     let user = req.body;
+
+    if(!user.password){
+        res.status(400).json({ message: 'No password provided' })
+    }
+
     const hash = bcrypt.hashSync(user.password, 12)
     user.password = hash;
-  
+
+    if(!user.username){
+        res.status(400).json({ message: 'Username not provided' })
+    } else if(!user.country){
+        res.status(400).json({ message: 'Users country not provided'})
+    } else if(!user.title){
+        res.status(400).json({ message: 'No title provided' })
+    } else {
     Users.add(user)
       .then(saved => {
         res.status(201).json(saved);
@@ -20,11 +32,11 @@ router.post('/register', (req, res) => {
       .catch(error => {
         res.status(500).json(error);
       });
+    }
   });
   
 router.post('/login', (req, res) => {
     let { username, password } = req.body;
-    let secret = 'Coordinate';
   
     Users.findBy({ username })
       .first()
@@ -34,8 +46,7 @@ router.post('/login', (req, res) => {
           if(token){
           res.status(200).json({
             message: `Welcome ${user.username}!, have a token...`,
-            token,
-            secret
+            token
           });
         } else {
             res.status(500).json({ msg: 'Could not generate token'});
