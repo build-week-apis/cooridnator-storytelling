@@ -2,13 +2,13 @@
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('stories', tbl => {
         tbl.increments()
-        tbl.string("story_title")
+        tbl.string("story_title", 160)
            .notNullable()
         tbl.string("story_description")
            .notNullable()
-        tbl.string("story_country")
+        tbl.string("story_country", 32)
            .notNullable()
-        tbl.string("story_user")
+        tbl.string("story_user", 64)
            .notNullable()
         tbl.foreign("story_user").references("id").inTable('users')
         tbl.timestamp('create_date').defaultTo(knex.fn.now());
