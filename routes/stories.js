@@ -18,6 +18,14 @@ router.get('/', async (req, res) => {
 router.post('/', mdl.restricted, (req, res) => {
   let story = req.body;
 
+  
+  if(!story.story_title){
+    res.status(400).json({ message: 'No story title' })
+} else if(!story.story_description){
+    res.status(400).json({ message: 'No story description'})
+} else if(!story.story_country){
+    res.status(400).json({ message: 'No country provided' })
+} else {
   Stories.add(story)
     .then(saved => {
       res.status(201).json(saved);
@@ -25,6 +33,7 @@ router.post('/', mdl.restricted, (req, res) => {
     .catch(error => {
       res.status(500).json(error);
     });
+  }
 });
 
 router.get('/:id', async (req, res) => {
@@ -39,10 +48,6 @@ router.get('/:id', async (req, res) => {
 });
 
 router.put('/:id', mdl.restricted, async (req, res) => {
-  if(!req.body.username) {
-    res.status(400).json({ errormsg: 'Please enter a username' });
-    return;
-  }
   try {
     const count = await db('stories')
       .where({ id: req.params.id })

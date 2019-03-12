@@ -5,6 +5,7 @@ function generateToken(user) {
     const payload = {
       subject: user.id, 
       username: user.username,
+      country: user.country,
       role: ['coordinator']
     };
   
