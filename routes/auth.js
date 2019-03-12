@@ -37,7 +37,6 @@ router.post('/register', (req, res) => {
   
 router.post('/login', (req, res) => {
     let { username, password } = req.body;
-    let secret = 'Coordinate';
   
     Users.findBy({ username })
       .first()
@@ -47,8 +46,7 @@ router.post('/login', (req, res) => {
           if(token){
           res.status(200).json({
             message: `Welcome ${user.username}!, have a token...`,
-            token,
-            secret
+            token
           });
         } else {
             res.status(500).json({ msg: 'Could not generate token'});
