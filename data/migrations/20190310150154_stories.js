@@ -1,6 +1,6 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('stories', tbl => {
-    tbl.increments();
+    tbl.increments('id');
     tbl.string('story_title', 160).notNullable();
     tbl.text('story_description').notNullable();
     tbl.string('story_country', 32).notNullable();
