@@ -47,6 +47,16 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/users/:id', async (req, res) => {
+  try {
+    const story = await db('stories')
+      .where({ user_id: req.params.id });
+    res.status(200).json(story);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 router.put('/:id', mdl.restricted, async (req, res) => {
   try {
     const count = await db('stories')
