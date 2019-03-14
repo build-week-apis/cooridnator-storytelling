@@ -46,6 +46,7 @@ router.post('/login', (req, res) => {
           if(token){
           res.status(200).json({
             curid: user.id,
+            curemail: user.email,
             token
           });
         } else {
