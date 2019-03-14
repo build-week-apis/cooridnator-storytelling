@@ -29,7 +29,7 @@ function restricted(req, res, next) {
       }
     });
   } else {
-    res.status(400).json({ msg: 'No Authentication' });
+    res.status(404).json({ msg: 'No Authentication' });
   }
 }
 
