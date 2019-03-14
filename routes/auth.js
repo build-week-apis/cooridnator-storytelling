@@ -45,7 +45,7 @@ router.post('/login', (req, res) => {
           const token = mdl.generateToken(user); // new
           if(token){
           res.status(200).json({
-            message: `Welcome ${user.username}!, have a token...`,
+            curid: user.id,
             token
           });
         } else {
