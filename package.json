@@ -6,10 +6,13 @@
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
-    "server": "nodemon index.js"
+    "server": "nodemon index.js",
+    "test": "jest --watch --verbose"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "jest": "^24.5.0",
+    "nodemon": "^1.18.10",
+    "supertest": "^4.0.0"
   },
   "dependencies": {
     "bcrypt": "^3.0.4",
