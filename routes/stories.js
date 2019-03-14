@@ -18,11 +18,10 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', mdl.restricted, (req, res) => {
-  let save = req.body;
 
-  const story = {
-    story_title: save.story_title,
-    story_description: save.story_description,
+  let story = {
+    story_title: req.body.story_title,
+    story_description: req.body.story_description,
     story_country: req.decodedJwt.country,
     user_id: req.decodedJwt.subject
   }
