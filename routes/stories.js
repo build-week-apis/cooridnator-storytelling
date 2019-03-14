@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../data/dbConfig');
+const jwtV = require('jsonwebtoken');
+const secret = "CoordinateSecret";
 
 const mdl = require('../extra/middleware');
 
@@ -16,8 +18,18 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', mdl.restricted, (req, res) => {
-  let story = req.body;
+  let save = req.body;
+  // let toke = jwtV.verify(save.jwt, secret, (err, decodedToken) => {
+  //   return decodedToken;
+  // }
+  // )
 
+  const story = {
+    story_title: save.story_title,
+    story_description: save.story_description,
+    story_country: req.decodedJwt.country,
+    user_id: req.decodedJwt.subject
+  }
   
   if(!story.story_title){
     res.status(400).json({ message: 'No story title' })
