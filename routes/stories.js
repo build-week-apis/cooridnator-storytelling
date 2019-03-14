@@ -19,10 +19,6 @@ router.get('/', async (req, res) => {
 
 router.post('/', mdl.restricted, (req, res) => {
   let save = req.body;
-  // let toke = jwtV.verify(save.jwt, secret, (err, decodedToken) => {
-  //   return decodedToken;
-  // }
-  // )
 
   const story = {
     story_title: save.story_title,
