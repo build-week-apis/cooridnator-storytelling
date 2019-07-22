@@ -50,8 +50,12 @@ router.post('/', mdl.restricted, (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const story = await db('stories')
-      .where({ id: req.params.id })
+      .join('users', {
+        'users.id': 'stories.user_id'
+      })
+      .where({ 'users.id': req.params.id })
       .first();
+    story.password = null;
     res.status(200).json(story);
   } catch (error) {
     res.status(500).json(error);
