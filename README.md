@@ -11,6 +11,7 @@ No forks will be used in the git repo!
 
 1. Clone the master branch of the repository: `git clone [repo link]`
     - **DO NOT FORK THE REPO**
+    - `yarn install`
 2. Confirm master is up-to-date: `git pull`
 3. Create new branch: `git branch [firstname-lastname]`
 4. Checkout branch: `git checkout [firstname-lastname]`
