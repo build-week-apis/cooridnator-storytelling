@@ -10,7 +10,12 @@ const Stories = require('../models/stories');
 
 router.get('/', async (req, res) => {
   try {
-    const stories = await db('stories');
+    const stories = await db('stories').join('users', {
+      'users.id': 'stories.user_id'
+    });
+    stories.forEach(story => {
+      story.password = null;
+    });
     res.status(200).json(stories);
   } catch (error) {
     res.status(500).json(error);
