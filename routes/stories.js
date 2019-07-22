@@ -2,44 +2,43 @@ const express = require('express');
 const router = express.Router();
 const db = require('../data/dbConfig');
 const jwtV = require('jsonwebtoken');
-const secret = "CoordinateSecret";
+const secret = 'CoordinateSecret';
 
 const mdl = require('../extra/middleware');
 
 const Stories = require('../models/stories');
 
 router.get('/', async (req, res) => {
-    try {
-        const stories = await db('stories'); 
-        res.status(200).json(stories);
-      } catch (error) {
-        res.status(500).json(error);
+  try {
+    const stories = await db('stories');
+    res.status(200).json(stories);
+  } catch (error) {
+    res.status(500).json(error);
   }
-})
+});
 
 router.post('/', mdl.restricted, (req, res) => {
-
   let story = {
     story_title: req.body.story_title,
     story_description: req.body.story_description,
     story_country: req.decodedJwt.country,
     user_id: req.decodedJwt.subject
-  }
-  
-  if(!story.story_title){
-    res.status(400).json({ message: 'No story title' })
-} else if(!story.story_description){
-    res.status(400).json({ message: 'No story description'})
-} else if(!story.story_country){
-    res.status(400).json({ message: 'No country provided' })
-} else {
-  Stories.add(story)
-    .then(saved => {
-      res.status(201).json(saved);
-    })
-    .catch(error => {
-      res.status(500).json(error);
-    });
+  };
+
+  if (!story.story_title) {
+    res.status(400).json({ message: 'No story title' });
+  } else if (!story.story_description) {
+    res.status(400).json({ message: 'No story description' });
+  } else if (!story.story_country) {
+    res.status(400).json({ message: 'No country provided' });
+  } else {
+    Stories.add(story)
+      .then(saved => {
+        res.status(201).json(saved);
+      })
+      .catch(error => {
+        res.status(500).json(error);
+      });
   }
 });
 
@@ -56,8 +55,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/users/:id', async (req, res) => {
   try {
-    const story = await db('stories')
-      .where({ user_id: req.params.id });
+    const story = await db('stories').where({ user_id: req.params.id });
     res.status(200).json(story);
   } catch (error) {
     res.status(500).json(error);
@@ -81,7 +79,6 @@ router.put('/:id', mdl.restricted, async (req, res) => {
     }
   } catch (error) {}
 });
-
 
 router.delete('/:id', mdl.restricted, async (req, res) => {
   try {
