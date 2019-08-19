@@ -1,17 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const db = require('../data/dbConfig');
-const jwtV = require('jsonwebtoken');
-const secret = 'CoordinateSecret';
+const db = require("../data/dbConfig");
+const jwtV = require("jsonwebtoken");
+const secret = "CoordinateSecret";
 
-const mdl = require('../extra/middleware');
+const mdl = require("../extra/middleware");
 
-const Stories = require('../models/stories');
+const Stories = require("../models/stories");
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const stories = await db('stories').join('users', {
-      'users.id': 'stories.user_id'
+    const stories = await db("stories").join("users", {
+      "users.id": "stories.user_id"
     });
     stories.forEach(story => {
       story.password = null;
@@ -22,7 +22,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', mdl.restricted, (req, res) => {
+router.post("/", mdl.restricted, (req, res) => {
+  console.log(req.decodedJwt.subject);
   let story = {
     story_title: req.body.story_title,
     story_description: req.body.story_description,
@@ -31,11 +32,11 @@ router.post('/', mdl.restricted, (req, res) => {
   };
 
   if (!story.story_title) {
-    res.status(400).json({ message: 'No story title' });
+    res.status(400).json({ message: "No story title" });
   } else if (!story.story_description) {
-    res.status(400).json({ message: 'No story description' });
+    res.status(400).json({ message: "No story description" });
   } else if (!story.story_country) {
-    res.status(400).json({ message: 'No country provided' });
+    res.status(400).json({ message: "No country provided" });
   } else {
     Stories.add(story)
       .then(saved => {
@@ -47,13 +48,13 @@ router.post('/', mdl.restricted, (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const story = await db('stories')
-      .join('users', {
-        'users.id': 'stories.user_id'
+    const story = await db("stories")
+      .join("users", {
+        "users.id": "stories.user_id"
       })
-      .where({ 'users.id': req.params.id })
+      .where({ "users.id": req.params.id })
       .first();
     story.password = null;
     res.status(200).json(story);
@@ -62,43 +63,47 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.get('/users/:id', async (req, res) => {
+router.get("/users/:id", async (req, res) => {
   try {
-    const story = await db('stories').where({ user_id: req.params.id });
+    const story = await db("stories").where({ user_id: req.params.id });
     res.status(200).json(story);
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-router.put('/:id', mdl.restricted, async (req, res) => {
+router.put("/:id", mdl.restricted, async (req, res) => {
   try {
-    const count = await db('stories')
+    const count = await db("stories")
       .where({ id: req.params.id })
       .update(req.body);
 
     if (count > 0) {
-      const story = await db('stories')
+      const story = await db("stories")
         .where({ id: req.params.id })
         .first();
 
       res.status(200).json(story);
     } else {
-      res.status(404).json({ message: 'Records not found' });
+      res.status(404).json({ message: "Records not found" });
     }
   } catch (error) {}
 });
 
-router.delete('/:id', mdl.restricted, async (req, res) => {
+router.delete("/:id", mdl.restricted, async (req, res) => {
+  console.log("id", req.params.id);
+
   try {
-    const count = await db('stories')
+    const count = await db("stories")
       .where({ id: req.params.id })
       .del();
+    console.log("count", count);
 
     if (count > 0) {
+      // count;
       res.status(204).end();
     } else {
-      res.status(404).json({ message: 'Records not found' });
+      res.status(404).json({ message: "Records not found" });
     }
   } catch (error) {}
 });
